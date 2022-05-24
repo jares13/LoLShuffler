@@ -1,0 +1,121 @@
+/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification 
+for details on configuring this project to bundle and minify static web assets. */
+body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+/* Wrapping element */
+/* Set some basic padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Carousel */
+.carousel-caption p {
+    font-size: 20px;
+    line-height: 1.4;
+}
+
+/* Make .svg files in the carousel display properly in older browsers */
+.carousel-inner .item img[src$=".svg"] {
+    width: 100%;
+}
+
+/* QR code generator */
+#qrCode {
+    margin: 15px;
+}
+
+/* Hide/rearrange for smaller screens */
+@media screen and (max-width: 767px) {
+    /* Hide captions */
+    .carousel-caption {
+        display: none;
+    }
+}
+
+.in-line {
+    display: inline-block;
+    vertical-align: middle
+}
+
+.sidebar {
+    position: fixed;
+    top: 51px;
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
+    display: block;
+    padding: 20px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    background-color: #f5f5f5;
+    border-right: 1px solid #eee;
+}
+
+.nav-sidebar {
+    margin-right: -21px;
+    margin-bottom: 20px;
+    margin-left: -20px;
+}
+
+.main {
+    padding-right: 40px;
+    padding-left: 40px;
+}
+
+.summoner {
+    width: 460px;
+    height: 80px; /* Размеры */
+    border: 1px solid #ccc; /* Белая рамка */
+    border-radius: 4px; /* Радиус скругления */
+    padding-left: 20px;
+    padding-bottom: 0;
+    margin-top: -1px
+}
+
+.champion {
+    margin-right: 10px;
+    margin-top: 11px;
+    float: right
+}
+
+.blue-team {
+    background-color: #ddffff;
+    vertical-align: top
+}
+
+.read-team {
+    background-color: #ffdddd;
+    vertical-align: top;
+}
+
+hr {
+    border-color: #ccc
+}
+
+p {
+    margin-left: 20px
+}
+
+.observer {
+    width: 200px;
+    height: 80px; /* Размеры */
+    border: 1px solid #ccc; /* Белая рамка */
+    border-radius: 4px; /* Радиус скругления */
+    padding-left: 20px;
+    padding-bottom: 0;
+    background-color: #eeeeee;
+    margin-top: 5px;
+}
+
+.btn-shuffle {
+    margin-left: 30px;
+}
+
+.hide {
+    display: none;
+}
+

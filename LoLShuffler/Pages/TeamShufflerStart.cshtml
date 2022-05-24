@@ -1,0 +1,79 @@
+﻿@page
+@model LoLShuffler.Pages.TeamShufflerStart
+@{
+    ViewData["TeamShufflerStart"] = "TeamShufflerStart";
+}
+
+<script>
+    function CreateId(length) {
+        var result = '';
+        var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        var charactersLength = characters.length;
+        for (var i = 0; i < length; i++) {
+            result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        }
+        return result;
+    }
+</script>
+
+<div style="width: 20px; height: 30px"></div>
+
+<div class="jumbotron">
+    <h2>Создайте новую команду</h2>
+    <div style="width: 20px; height: 15px"></div>
+    <h4>Придумайте ключ, по которому другие участники смогут смотеть команду</h4>
+    <div style="width: 20px; height: 10px"></div>
+    <div class="form-inline">
+        <input onchange="$('#private-key').val($('#public-key').val()+CreateId(3))" id="public-key" type="text" class="form-control" size="40">
+        <button onclick="$('#public-key').val(CreateId(15)); $('#private-key').val($('#public-key').val()+CreateId(3));" class="btn-info"><img width="28" height="28" src="images/orig.png"></button>
+    </div>
+    <div style="width: 20px; height: 15px"></div>
+
+    <h4>Придумайте ключ, по которому другие участники смогут редактировать команду</h4>
+    <div style="width: 20px; height: 10px"></div>
+    <div class="form-inline">
+        <input id="private-key" type="text" class="form-control" size="40">
+        <button onclick="$('#private-key').val(CreateId(15))" class="btn-info"><img width="28" height="28" src="images/orig.png"></button>
+    </div>
+    <div style="width: 20px; height: 30px"></div>
+    <button onclick="window.location = '/TeamShuffler?handler=Create&publicKey='+$('#public-key').val()+'&privateKey='+$('#private-key').val();" class="btn btn-success">Создать!</button>
+</div>
+
+@if (Model.IsKeyNotValid)
+{
+<div class="alert alert-danger">
+    <strong>Введите нормальный ключ!</strong>
+</div>
+}
+@if (Model.IsTeamAlreadyExist)
+{
+<div class="alert alert-danger">
+    <strong>Команда с таким ключем уже существует!</strong>
+</div>
+}
+
+<div style="width: 20px; height: 30px"></div>
+
+
+<div class="jumbotron">
+    <h2>Или присоеденитесь к существующей</h2>
+    <div style="width: 20px; height: 15px"></div>
+    <h4>Введите ключ существующей команды</h4>
+    <div style="width: 20px; height: 10px"></div>
+    <div class="form-inline">
+        <input id="key" type="text" class="form-control" size="40">
+    </div>
+    <div style="width: 20px; height: 30px"></div>
+    <button onclick="window.location = '/TeamShuffler?key='+$('#key').val();" class="btn btn-success">Присоединиться!</button>
+
+
+</div>
+
+@if (Model.IsTeamDoesNotExist)
+{
+<div class="alert alert-danger">
+    <strong>Команды с таким ключем не существует!</strong>
+</div>
+}
+
+

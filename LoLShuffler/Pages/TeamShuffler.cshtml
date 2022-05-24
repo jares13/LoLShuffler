@@ -1,0 +1,281 @@
+﻿@page
+@using LoLShuffler.DAL.Models
+@model LoLShuffler.Pages.TeamShufflerModel
+@{
+    ViewData["Title"] = "TeamShuffler";
+}
+
+
+<div class="col-sm-3 col-md-2 sidebar">
+    <h4>Public key: @Model.Data.PublicKey</h4>
+    @if (Model.Data.IsOwner)
+    {
+        <h4>Private key: @Model.Data.PrivateKey</h4>
+    }
+    <div style="width: 20px; height: 20px"></div>
+    <h3>Фильтры</h3>
+    <div style="width: 20px; height: 20px"></div>
+    <div>
+        <h4>Количество чемпионов:</h4>
+        <p>
+            <input name="championCount" type="radio" value="1"> 1<Br>
+            <input name="championCount" type="radio" value="2"> 2<Br>
+            <input name="championCount" type="radio" value="3"> 3<Br>
+            <input name="championCount" type="radio" value="4"> 4<Br>
+        </p>
+    </div>
+    <div style="width: 20px; height: 20px"></div>
+    <div>
+        <h4>Ранг чемпионов:</h4>
+        <div style="width: 20px; height: 40px"></div>
+        @if (Model.Data.IsOwner)
+        {
+            <div class="slider-styled" id="rankSlider"></div>
+        }
+        else
+        {
+            <div class="slider-styled" id="rankSlider" disabled></div>
+        }
+        <div style="width: 20px; height: 10px"></div>
+    </div>
+    <div style="width: 20px; height: 30px"></div>
+    <div>
+        <h4>Участвующие классы:</h4>
+        <p>
+            <input type="checkbox" name="ban" value="Fighter">   Брузер<Br>
+            <input type="checkbox" name="ban" value="Tank">   Танк<Br>
+            <input type="checkbox" name="ban" value="Mage">   Маг<Br>
+            <input type="checkbox" name="ban" value="Assassin">   Ассассин<Br>
+            <input type="checkbox" name="ban" value="Support">   Сапорт<Br>
+            <input type="checkbox" name="ban" value="Marksman">   Стрелок
+        </p>
+    </div>
+    
+    @if (Model.Data.IsOwner)
+    {
+        <div style="width: 20px; height: 50px"></div>
+        <div class="btn-shuffle">
+            <button onclick="var classesStr = ''; $('input:checkbox:checked').each(function(){classesStr += ($(this).val()) + '|';}); window.location.replace('/TeamShuffler?handler=Suffle&key='+window.TeamKey+'&championsCount='+$('input[name=championCount]:checked').val()+'&minRank='+rankSlider.noUiSlider.get()[0]+'&maxRank='+rankSlider.noUiSlider.get()[1]+'&classesStr='+classesStr)" class="btn btn-success" style="width: 130px; height: 50px"><h4>Shuffle!</h4></button>
+        </div>
+    }
+</div>
+
+<div class="col-sm-9 col-sm-offset-3 col-md-11 col-md-offset-2 main">
+
+    <div style="width: 20px; height: 30px"></div>
+    <h3>Добавить призывателя</h3>
+    <div>
+        <div style="width: 20px; height: 10px"></div>
+        <div class="form-inline">
+            <input id="name" type="text" placeholder="Логин" class="form-control" size="30">
+            <button onclick="if ($('#name').val() != '') {window.location.replace('/TeamShuffler?handler=AddSummoner&team=Blue&name='+$('#name').val()+'&key='+window.TeamKey)}" class="btn btn-info">Добавить</button>
+            <button onclick="if ($('#name').val() != '') {window.location.replace('/TeamShuffler?handler=AddSummoner&team=Red&name='+$('#name').val()+'&key='+window.TeamKey)}" class="btn btn-danger">Добавить</button>
+        </div>
+    </div>
+    @if (Model.IsSummonerAlreadyExist)
+    {
+        <div style="width: 20px; height: 10px"></div>
+        <div class="alert alert-danger">
+            <strong>Призыватель уже есть в команде!</strong>
+        </div>
+    }
+
+    @if (Model.IsSummonerNotFound)
+    {
+        <div style="width: 20px; height: 10px"></div>
+        <div class="alert alert-danger">
+            <strong>Призыватель не найден!</strong>
+        </div>
+    }
+    <hr>
+    <div style="width: 20px; height: 10px"></div>
+    <h3>Команды</h3>
+    <div style="width: 20px; height: 10px"></div>
+    <div>
+        <div class="in-line blue-team">
+            @foreach (var summoner in Model.Data.Summoners.Where(s => s.IsActiv && s.TeamColor == TeamColor.Blue).ToList())
+            {
+                <div class="summoner">
+                    <div class="in-line">
+                        <h4>@summoner.Name</h4>
+                        @if (Model.Data.IsOwner)
+                        {
+                            <div>
+                                <button onclick="window.location.replace('/TeamShuffler?handler=DeleteSummoner&name=' + '@summoner.Name' + '&key=' + window.TeamKey)" class="btn-xs btn-danger in-line"><img src="images/cross.png" width="23" height="23"></button>
+                                <button onclick="window.location.replace('/TeamShuffler?handler=SwapActivity&name=' + '@summoner.Name' + '&key=' + window.TeamKey)" class="btn-xs btn-info in-line"><img src="images/arrow_down.png" width="23" height="23"></button>
+                                <button onclick="window.location.replace('/TeamShuffler?handler=Swap&name=' + '@summoner.Name' + '&key=' + window.TeamKey)" class="btn-xs btn-success in-line"><img src="images/arrow2.png" width="23" height="23"></button>
+                            </div>
+                        }
+                        else
+                        {
+                            <div>
+                                <button onclick="window.location.replace('/TeamShuffler?handler=Swap&name=' + '@summoner.Name' + '&key=' + window.TeamKey)" class="btn-xs btn-success in-line"><img src="images/arrow2.png" width="23" height="23"></button>
+                            </div>
+                            @*<div class="in-line" style="width: 100px; height: 30px"></div>*@
+                        }
+                    </div>
+                    <div class="in-line champion">
+                        @foreach (var champion in summoner.ChampionsNames)
+                        {
+                            var imgUrl = $"http://ddragon.leagueoflegends.com/cdn/{Model.ClientVersion}/img/champion/{champion}.png";
+                            <img class="in-line" src="@imgUrl", alt="@champion" title="@champion" width="55" height="55">
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="in-line read-team">
+            @foreach (var summoner in Model.Data.Summoners.Where(s => s.IsActiv && s.TeamColor == TeamColor.Red).ToList())
+            {
+                <div class="summoner">
+                    <div class="in-line">
+                        <h4>@summoner.Name</h4>
+                        @if (Model.Data.IsOwner)
+                        {
+                            <div>
+                                <button onclick="window.location.replace('/TeamShuffler?handler=DeleteSummoner&name=' + '@summoner.Name' + '&key=' + window.TeamKey)" class="btn-xs btn-danger in-line"><img src="images/cross.png" width="23" height="23"></button>
+                                <button onclick="window.location.replace('/TeamShuffler?handler=SwapActivity&name=' + '@summoner.Name' + '&key=' + window.TeamKey)" class="btn-xs btn-info in-line"><img src="images/arrow_down.png" width="23" height="23"></button>
+                                <button onclick="window.location.replace('/TeamShuffler?handler=Swap&name=' + '@summoner.Name' + '&key=' + window.TeamKey)" class="btn-xs btn-success in-line"><img src="images/arrow2.png" width="23" height="23"></button>
+                            </div>
+                        }
+                        else
+                        {
+                            <div>
+                                <button onclick="window.location.replace('/TeamShuffler?handler=Swap&name=' + '@summoner.Name' + '&key=' + window.TeamKey)" class="btn-xs btn-success in-line"><img src="images/arrow2.png" width="23" height="23"></button>
+                            </div>
+                            @*<div class="in-line" style="width: 100px; height: 30px"></div>*@
+                        }
+                    </div>
+                    <div class="in-line champion">
+                        @foreach (var champion in summoner.ChampionsNames)
+                        {
+                            var imgUrl = $"http://ddragon.leagueoflegends.com/cdn/{Model.ClientVersion}/img/champion/{champion}.png";
+                            <img class="in-line" src="@imgUrl" width="55" height="55">
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    <hr>
+    <div style="width: 20px; height: 10px"></div>
+    <h3>Сейчас не играют</h3>
+    <div style="width: 20px; height: 10px"></div>
+    <div class="form-inline">
+        <input id="find" type="text" placeholder="Логин" class="form-control" size="30">
+        <button onclick="find()" class="btn btn-info">Найти</button>
+    </div>
+    <div style="width: 20px; height: 10px"></div>
+    <div>
+
+        @foreach (var summoner in Model.Data.Summoners.Where(s => !s.IsActiv))
+        {
+            <div class="in-line observer">
+                <h4>@summoner.Name</h4>
+                @if (Model.Data.IsOwner)
+                {
+                    <div>
+                        <button onclick="window.location.replace('/TeamShuffler?handler=DeleteSummoner&name=' + '@summoner.Name' + '&key=' + window.TeamKey)" class="btn-xs btn-danger in-line"><img src="images/cross.png" width="23" height="23"></button>
+                        <button onclick="window.location.replace('/TeamShuffler?handler=SwapActivity&name=' + '@summoner.Name' + '&key=' + window.TeamKey)" class="btn-xs btn-info in-line"><img src="images/arrow_down.png" width="23" height="23"></button>
+                    </div>
+                }
+                <div class="in-line" style="width: 55px; height: 10px"></div>
+            </div>
+        }
+    </div>
+</div>
+
+<script>
+    var find = function() {
+        var observers = $('.observer');
+        var findStr = $('#find').val().toLowerCase();
+
+        if (findStr != '') {
+            for (let i = 0; i < observers.length; i++) {
+                observers[i].classList.add("hide");
+
+                if (observers[i].innerText.toLowerCase().includes(findStr)) {
+                    observers[i].classList.remove("hide");
+                }
+            }
+        } else {
+            for (let i = 0; i < observers.length; i++) {
+                observers[i].classList.remove("hide");
+            }
+        }
+    }
+
+    window.onload = function() {
+
+        var rankFilter = document.getElementById('rankSlider');
+        noUiSlider.create(rankFilter, {
+            start: [@Model.Data.Filter.MinRang, @Model.Data.Filter.MaxRang],
+            connect: true,
+            step: 1,
+            tooltips: true,
+            range: {
+                'min': 1,
+                'max': 7
+            },
+            format: {
+                to: function (value) {
+                    return parseInt(value);
+                },
+                from: function (value) {
+                    return parseInt(value);
+                }
+            }
+        });
+
+        try {
+            @if (Model.Data.IsOwner)
+            {
+                <text>
+                    window.TeamKey = "@Model.Data.PrivateKey";
+                </text>
+            }
+            else
+            {
+                <text>
+                    window.TeamKey = "@Model.Data.PublicKey";
+                    $('input').prop("disabled", true);
+                    $('#name').prop("disabled", false);
+                    $('#find').prop("disabled", false);
+                </text>
+            }
+            window.TeamVersion = "@Model.Data.Version";
+            console.log('Key: '+ window.TeamKey);
+            console.log('Version: ' + window.TeamVersion);
+        } catch (e) {
+            console.log(e);
+        }
+
+        try {
+            $('input[name=championCount]')[@Model.Data.Filter.ChampionsCount-1].checked = true;
+            var a = $('input:checkbox');
+            @foreach (var a in Model.Data.Filter.IgnoredChampionClasses)
+            {
+                var aa = (int) a;
+                <text>
+                    a[@aa].checked = true;
+                </text>
+            }
+        } catch (e) {
+            console.log(e);
+        }
+        
+        var reload = function() {
+            $.ajax({
+                url: window.location + '&handler=Reload&v=' + window.TeamVersion,            
+                success: function(isNeedReload){
+                    if (isNeedReload) {
+                        console.log("reload new data");
+                        window.location.replace('/TeamShuffler?key=' + window.TeamKey);
+                    }
+                }
+            });
+        };
+
+        setInterval(reload, 3000);
+    };
+</script>
