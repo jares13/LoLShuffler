@@ -1,29 +1,33 @@
-version: '3.1'
-
-services:
-
-  lol_shaffler:
-    image: jares13/lol_shuffler
-    environment:
-      ConnectionStrings__ShufflerDb: 'Host=shuffler_db;Port=5432;Database=postgres;Username=postgres;Password=4238'
-      Keys__RiotKey: 'key'
-    ports:
-      - "80:80"
-      - "443:443"
-    container_name: shuffler_app
-    networks:
-      - postgres
-
-  db:
-    image: postgres
-    environment:
-      POSTGRES_USER: 'postgres'
-      POSTGRES_DB: 'postgres'
-      POSTGRES_PASSWORD: '4238'
-    container_name: shuffler_db
-    networks:
-      - postgres
-
-networks:
-  postgres:
-    driver: bridge  
+version: '3.1' 
+ 
+services: 
+ 
+  lol_shaffler: 
+    #image: jares13/lol_shuffler 
+    build: . 
+    environment: 
+      ConnectionStrings__ShufflerDb: 'Host=shuffler_db;Port=5432;Database=postgres;Username=postgres;Password=4238' 
+      Keys__RiotKey: "${wtf}" 
+    ports: 
+      - "8080:80" 
+    container_name: shuffler_app 
+    depends_on: 
+      - db 
+    networks: 
+      - postgres 
+ 
+  db: 
+    image: postgres 
+    environment: 
+      POSTGRES_USER: 'postgres' 
+      POSTGRES_DB: 'postgres' 
+      POSTGRES_PASSWORD: '4238' 
+    container_name: shuffler_db 
+    networks: 
+      - postgres 
+    volumes: 
+      - /mnt/stuff/docker/LolShuffler:/var/lib/postgresql/data 
+ 
+networks: 
+  postgres: 
+    driver: bridge
