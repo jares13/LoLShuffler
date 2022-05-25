@@ -9,7 +9,7 @@ services:
       ConnectionStrings__ShufflerDb: 'Host=shuffler_db;Port=5432;Database=postgres;Username=postgres;Password=4238' 
       Keys__RiotKey: "${wtf}" 
     ports: 
-      - "8080:80" 
+      - "42055:80" 
     container_name: shuffler_app 
     depends_on: 
       - db 
