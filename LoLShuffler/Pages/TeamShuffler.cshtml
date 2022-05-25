@@ -150,7 +150,7 @@
                         @foreach (var champion in summoner.ChampionsNames)
                         {
                             var imgUrl = $"http://ddragon.leagueoflegends.com/cdn/{Model.ClientVersion}/img/champion/{champion}.png";
-                            <img class="in-line" src="@imgUrl" width="55" height="55">
+                            <img class="in-line" src="@imgUrl" alt="@champion" title="@champion" width="55" height="55">
                         }
                     </div>
                 </div>
