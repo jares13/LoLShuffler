@@ -4,22 +4,26 @@ services:
 
   lol_shaffler:
     image: jares13/lol_shuffler
-    restart: always
     environment:
-      ConnectionStrings__ShufflerDb: 'Host=shuffler_db;Port=5432;Database=postgres;Username=postgres;Password=4238'  
+      ConnectionStrings__ShufflerDb: 'Host=shuffler_db;Port=5432;Database=postgres;Username=postgres;Password=4238'
       Keys__RiotKey: 'key'
     ports:
       - "80:80"
       - "443:443"
     container_name: shuffler_app
+    networks:
+      - postgres
+
   db:
     image: postgres
-    restart: always
     environment:
       POSTGRES_USER: 'postgres'
       POSTGRES_DB: 'postgres'
       POSTGRES_PASSWORD: '4238'
-    ports:
-      - "5432:5432"
-    container_name: shuffler_db  
-  
+    container_name: shuffler_db
+    networks:
+      - postgres
+
+networks:
+  postgres:
+    driver: bridge  
