@@ -1,4 +1,4 @@
-/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification 
+п»ї/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification 
 for details on configuring this project to bundle and minify static web assets. */
 body {
     padding-top: 50px;
@@ -68,9 +68,9 @@ body {
 
 .summoner {
     width: 460px;
-    height: 80px; /* Размеры */
-    border: 1px solid #ccc; /* Белая рамка */
-    border-radius: 4px; /* Радиус скругления */
+    height: 80px; /* Р Р°Р·РјРµСЂС‹ */
+    border: 1px solid #ccc; /* Р‘РµР»Р°СЏ СЂР°РјРєР° */
+    border-radius: 4px; /* Р Р°РґРёСѓСЃ СЃРєСЂСѓРіР»РµРЅРёСЏ */
     padding-left: 20px;
     padding-bottom: 0;
     margin-top: -1px
@@ -102,9 +102,9 @@ p {
 
 .observer {
     width: 200px;
-    height: 80px; /* Размеры */
-    border: 1px solid #ccc; /* Белая рамка */
-    border-radius: 4px; /* Радиус скругления */
+    height: 80px; /* Р Р°Р·РјРµСЂС‹ */
+    border: 1px solid #ccc; /* Р‘РµР»Р°СЏ СЂР°РјРєР° */
+    border-radius: 4px; /* Р Р°РґРёСѓСЃ СЃРєСЂСѓРіР»РµРЅРёСЏ */
     padding-left: 20px;
     padding-bottom: 0;
     background-color: #eeeeee;
@@ -117,5 +117,11 @@ p {
 
 .hide {
     display: none;
+}
+
+.rang-select {
+    padding-bottom: 0.2rem;
+    padding-left: 0rem;
+    font-size: 1.86rem;
 }
 

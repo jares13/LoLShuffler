@@ -12,5 +12,6 @@ namespace LoLShuffler.Models
         public List<string> ChampionsNames { get; set; }
         public bool IsActiv { get; set; }
         public TeamColor TeamColor { get; set; }
+        public Rang Rang { get; set; }
     }
 }

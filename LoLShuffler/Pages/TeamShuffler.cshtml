@@ -1,5 +1,6 @@
 ﻿@page
 @using LoLShuffler.DAL.Models
+@using LoLShuffler.Models
 @model LoLShuffler.Pages.TeamShufflerModel
 @{
     ViewData["Title"] = "TeamShuffler";
@@ -56,7 +57,10 @@
         <div style="width: 20px; height: 50px"></div>
         <div class="btn-shuffle">
             <button onclick="var classesStr = ''; $('input:checkbox:checked').each(function(){classesStr += ($(this).val()) + '|';}); window.location.replace('/TeamShuffler?handler=Suffle&key='+window.TeamKey+'&championsCount='+$('input[name=championCount]:checked').val()+'&minRank='+rankSlider.noUiSlider.get()[0]+'&maxRank='+rankSlider.noUiSlider.get()[1]+'&classesStr='+classesStr)" class="btn btn-success" style="width: 130px; height: 50px"><h4>Shuffle!</h4></button>
+            <div style="width: 20px; height: 10px"></div>
+            <button onclick="window.location.replace('/TeamShuffler?handler=Balance&key=' + window.TeamKey + '&ranks=' + getRanks())" class="btn btn-primary" style="width: 130px; height: 50px"><h4>Balance!</h4></button>
         </div>
+
     }
 </div>
 
@@ -101,15 +105,22 @@
                         @if (Model.Data.IsOwner)
                         {
                             <div>
-                                <button onclick="window.location.replace('/TeamShuffler?handler=DeleteSummoner&name=' + '@summoner.Name' + '&key=' + window.TeamKey)" class="btn-xs btn-danger in-line"><img src="images/cross.png" width="23" height="23"></button>
-                                <button onclick="window.location.replace('/TeamShuffler?handler=SwapActivity&name=' + '@summoner.Name' + '&key=' + window.TeamKey)" class="btn-xs btn-info in-line"><img src="images/arrow_down.png" width="23" height="23"></button>
-                                <button onclick="window.location.replace('/TeamShuffler?handler=Swap&name=' + '@summoner.Name' + '&key=' + window.TeamKey)" class="btn-xs btn-success in-line"><img src="images/arrow2.png" width="23" height="23"></button>
+                                <button onclick="window.location.replace('/TeamShuffler?handler=DeleteSummoner&name=' + '@summoner.Name' + '&key=' + window.TeamKey)" class="btn btn-xs btn-danger in-line"><img src="images/cross.png" width="23" height="23"></button>
+                                <button onclick="window.location.replace('/TeamShuffler?handler=SwapActivity&name=' + '@summoner.Name' + '&key=' + window.TeamKey)" class="btn btn-xs btn-primary in-line"><img src="images/arrow_down.png" width="23" height="23"></button>
+                                <button onclick="window.location.replace('/TeamShuffler?handler=Swap&name=' + '@summoner.Name' + '&key=' + window.TeamKey)" class="btn btn-xs btn-success in-line"><img src="images/arrow2.png" width="23" height="23"></button>
+
+                                <select class="rang-select btn btn-xs btn-info" onchange="window.location.replace('/TeamShuffler?handler=ChangeRang&name=' + '@summoner.Name' + '&rang=' + this.value + '&key=' + window.TeamKey)">
+                                    @if (summoner.Rang == Rang.First){<option selected value="First">🥇</option>}else{<option value="First">🥇</option>}
+                                    @if (summoner.Rang == Rang.Second){<option selected value="Second">🥈</option>}else{<option value="Second">🥈</option>}
+                                    @if (summoner.Rang == Rang.Third){<option selected value="Third">🥉</option>}else{<option value="Third">🥉</option>}
+                                </select>
+
                             </div>
                         }
                         else
                         {
                             <div>
-                                <button onclick="window.location.replace('/TeamShuffler?handler=Swap&name=' + '@summoner.Name' + '&key=' + window.TeamKey)" class="btn-xs btn-success in-line"><img src="images/arrow2.png" width="23" height="23"></button>
+                                <button onclick="window.location.replace('/TeamShuffler?handler=Swap&name=' + '@summoner.Name' + '&key=' + window.TeamKey)" class="btn btn-xs btn-success in-line"><img src="images/arrow2.png" width="23" height="23"></button>
                             </div>
                             @*<div class="in-line" style="width: 100px; height: 30px"></div>*@
                         }
@@ -133,15 +144,22 @@
                         @if (Model.Data.IsOwner)
                         {
                             <div>
-                                <button onclick="window.location.replace('/TeamShuffler?handler=DeleteSummoner&name=' + '@summoner.Name' + '&key=' + window.TeamKey)" class="btn-xs btn-danger in-line"><img src="images/cross.png" width="23" height="23"></button>
-                                <button onclick="window.location.replace('/TeamShuffler?handler=SwapActivity&name=' + '@summoner.Name' + '&key=' + window.TeamKey)" class="btn-xs btn-info in-line"><img src="images/arrow_down.png" width="23" height="23"></button>
-                                <button onclick="window.location.replace('/TeamShuffler?handler=Swap&name=' + '@summoner.Name' + '&key=' + window.TeamKey)" class="btn-xs btn-success in-line"><img src="images/arrow2.png" width="23" height="23"></button>
+                                <button onclick="window.location.replace('/TeamShuffler?handler=DeleteSummoner&name=' + '@summoner.Name' + '&key=' + window.TeamKey)" class="btn btn-xs btn-danger in-line"><img src="images/cross.png" width="23" height="23"></button>
+                                <button onclick="window.location.replace('/TeamShuffler?handler=SwapActivity&name=' + '@summoner.Name' + '&key=' + window.TeamKey)" class="btn btn-xs btn-primary in-line"><img src="images/arrow_down.png" width="23" height="23"></button>
+                                <button onclick="window.location.replace('/TeamShuffler?handler=Swap&name=' + '@summoner.Name' + '&key=' + window.TeamKey)" class="btn btn-xs btn-success in-line"><img src="images/arrow2.png" width="23" height="23"></button>
+
+                                <select class="form-select-lg rang-select btn btn-xs btn-info" onchange="window.location.replace('/TeamShuffler?handler=ChangeRang&name=' + '@summoner.Name' + '&rang=' + this.value + '&key=' + window.TeamKey)">
+                                    @if (summoner.Rang == Rang.First){<option selected value="First">🥇</option>}else{<option value="First">🥇</option>}
+                                    @if (summoner.Rang == Rang.Second){<option selected value="Second">🥈</option>}else{<option value="Second">🥈</option>}
+                                    @if (summoner.Rang == Rang.Third){<option selected value="Third">🥉</option>}else{<option value="Third">🥉</option>}
+                                </select>
+
                             </div>
                         }
                         else
                         {
                             <div>
-                                <button onclick="window.location.replace('/TeamShuffler?handler=Swap&name=' + '@summoner.Name' + '&key=' + window.TeamKey)" class="btn-xs btn-success in-line"><img src="images/arrow2.png" width="23" height="23"></button>
+                                <button onclick="window.location.replace('/TeamShuffler?handler=Swap&name=' + '@summoner.Name' + '&key=' + window.TeamKey)" class="btn btn-xs btn-success in-line"><img src="images/arrow2.png" width="23" height="23"></button>
                             </div>
                             @*<div class="in-line" style="width: 100px; height: 30px"></div>*@
                         }
@@ -175,8 +193,8 @@
                 @if (Model.Data.IsOwner)
                 {
                     <div>
-                        <button onclick="window.location.replace('/TeamShuffler?handler=DeleteSummoner&name=' + '@summoner.Name' + '&key=' + window.TeamKey)" class="btn-xs btn-danger in-line"><img src="images/cross.png" width="23" height="23"></button>
-                        <button onclick="window.location.replace('/TeamShuffler?handler=SwapActivity&name=' + '@summoner.Name' + '&key=' + window.TeamKey)" class="btn-xs btn-info in-line"><img src="images/arrow_down.png" width="23" height="23"></button>
+                        <button onclick="window.location.replace('/TeamShuffler?handler=DeleteSummoner&name=' + '@summoner.Name' + '&key=' + window.TeamKey)" class="btn btn-xs btn-danger in-line"><img src="images/cross.png" width="23" height="23"></button>
+                        <button onclick="window.location.replace('/TeamShuffler?handler=SwapActivity&name=' + '@summoner.Name' + '&key=' + window.TeamKey)" class="btn btn-xs btn-info in-line"><img src="images/arrow_down.png" width="23" height="23"></button>
                     </div>
                 }
                 <div class="in-line" style="width: 55px; height: 10px"></div>
@@ -203,6 +221,28 @@
                 observers[i].classList.remove("hide");
             }
         }
+    }
+
+    var getRanks = function () {
+
+        var names = [];
+        var ranges = [];
+
+        @foreach (var s in Model.Data.Summoners)
+        {
+            <text>
+                names.push("@Html.Raw(s.Name)");
+                ranges.push("@s.Rang");
+            </text>
+        }
+
+        var result = "";
+
+        for (var i = 0; i < names.length; i++) {
+            result += names[i].toString() + ':' + ranges[i].toString() + "|";
+        }
+
+        return result;
     }
 
     window.onload = function() {
