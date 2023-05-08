@@ -134,7 +134,7 @@ namespace LoLShuffler.Pages
 
         public ActionResult OnGetSwap(string key, string name)
         {
-            var dbTeam = dbContext.Teams.FirstOrDefault(t => t.PrivateKey == key || t.PublicKey == key);
+            var dbTeam = dbContext.Teams.FirstOrDefault(t => t.PrivateKey == key);
             if (dbTeam == null)
             {
                 return Redirect("/TeamShufflerStart?IsTeamDoesNotExist=true");
