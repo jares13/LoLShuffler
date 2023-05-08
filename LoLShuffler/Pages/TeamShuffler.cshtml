@@ -214,7 +214,7 @@
         var names = [];
         var ranges = [];
 
-        @foreach (var s in Model.Data.Summoners)
+        @foreach (var s in Model.Data.Summoners.Where(x => x.IsActiv))
         {
             <text>
                 names.push("@Html.Raw(s.Name)");
