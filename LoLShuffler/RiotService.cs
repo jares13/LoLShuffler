@@ -39,8 +39,8 @@ namespace LoLShuffler
             }
 
             var responseStream = response.Content.ReadAsStreamAsync().Result;
-            var a = DeserializeFromStream<IdResponse>(responseStream);
-            return a.Id;
+            var summoner = DeserializeFromStream<RiotSummoner>(responseStream);
+            return summoner.Puuid;
         }
 
         public List<Champion> GetAllChampions(string clientVersion)
@@ -61,7 +61,7 @@ namespace LoLShuffler
 
         public List<string> GetRandomChampions(string riotId, int championsCount, int minRank, int maxRank, List<ChampionClass> classList, List<Champion> champions)
         {
-            var request = new HttpRequestMessage(HttpMethod.Get, $"https://ru.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/{riotId}");
+            var request = new HttpRequestMessage(HttpMethod.Get, $"https://ru.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-puuid/{riotId}");
             request.Headers.Add("X-Riot-Token", key);
 
             var client = clientFactory.CreateClient();
