@@ -72,8 +72,8 @@
         <div style="width: 20px; height: 10px"></div>
         <div class="form-inline">
             <input id="name" type="text" placeholder="Логин" class="form-control" size="30">
-            <button onclick="if ($('#name').val() != '') {window.location.replace('/TeamShuffler?handler=AddSummoner&team=Blue&name='+$('#name').val()+'&key='+window.TeamKey)}" class="btn btn-info">Добавить</button>
-            <button onclick="if ($('#name').val() != '') {window.location.replace('/TeamShuffler?handler=AddSummoner&team=Red&name='+$('#name').val()+'&key='+window.TeamKey)}" class="btn btn-danger">Добавить</button>
+            <input id="tag" type="text" placeholder="Тэг" value="#RU1" class="form-control" size="3">
+            <button onclick="if ($('#name').val() != '') {window.location.replace('/TeamShuffler?handler=AddSummoner&team=Blue&name='+$('#name').val()+'&tag='+$('#tag').val().replace('#', '')+'&key='+window.TeamKey)}" class="btn btn-info">Добавить</button>
         </div>
     </div>
     @if (Model.IsSummonerAlreadyExist)

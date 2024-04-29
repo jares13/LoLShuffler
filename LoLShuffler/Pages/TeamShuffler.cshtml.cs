@@ -99,9 +99,8 @@ namespace LoLShuffler.Pages
             return Redirect($"/TeamShuffler?key={privateKey}");
         }
 
-        public ActionResult OnGetAddSummoner(string key, TeamColor team, string name)
+        public ActionResult OnGetAddSummoner(string key, TeamColor team, string name, string tag)
         {
-            var a = PageContext;
             var dbTeam = dbContext.Teams.FirstOrDefault(t => t.PrivateKey == key || t.PublicKey == key);
             if (dbTeam == null)
             {
@@ -115,7 +114,7 @@ namespace LoLShuffler.Pages
                 return Redirect($"/TeamShuffler?key={key}&isSummonerAlreadyExist=true");
             }
 
-            var summoners = GetSummoner(name, team);
+            var summoners = GetSummoner(name, tag, team);
 
             if (summoners == null)
             {
@@ -285,9 +284,9 @@ namespace LoLShuffler.Pages
             return Redirect($"/TeamShuffler?key={key}");
         }
 
-        private Summoner GetSummoner(string name, TeamColor team)
+        private Summoner GetSummoner(string name, string tag, TeamColor team)
         {
-            var riotId = riotService.GetRiotIdByName(name);
+            var riotId = riotService.GetRiotIdByName(name, tag);
 
             if (string.IsNullOrWhiteSpace(riotId))
             {

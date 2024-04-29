@@ -25,9 +25,9 @@ namespace LoLShuffler
             key = keys.Value.RiotKey;
         }
 
-        public string GetRiotIdByName(string name)
+        public string GetRiotIdByName(string name, string tag)
         {
-            var request = new HttpRequestMessage(HttpMethod.Get, $"https://ru.api.riotgames.com/lol/summoner/v4/summoners/by-name/{name}");
+            var request = new HttpRequestMessage(HttpMethod.Get, $"https://europe.api.riotgames.com/riot/account/v1/accounts/by-riot-id/{name}/{tag}");
             request.Headers.Add("X-Riot-Token", key);
 
             var client = clientFactory.CreateClient();
